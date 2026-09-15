@@ -4,7 +4,12 @@ namespace AutoMasters.ViewModels;
 
 public abstract partial class BaseViewModel : ObservableObject
 {
+    // On précise explicitement "AutoMasters.Modeles.ViewState" partout
     [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(IsLoading))]
+    [NotifyPropertyChangedFor(nameof(IsEmpty))]
+    [NotifyPropertyChangedFor(nameof(IsError))]
+    [NotifyPropertyChangedFor(nameof(IsOffline))]
     private AutoMasters.Modeles.ViewState state = AutoMasters.Modeles.ViewState.Loading;
 
     [ObservableProperty]

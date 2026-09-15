@@ -1,15 +1,46 @@
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AutoMasters.Vues.BoosterPage">
-<VerticalStackLayout Padding="20" Spacing="15">
-<Label Text="OUVERTURE DE BOOSTER" FontSize="25" FontAttributes="Bold"/>
-<Label Text="{Binding Compteur}" FontSize="18" HorizontalOptions="Center"/>
-<Button Text="OUVRIR UN BOOSTER" Command="{Binding OuvrirCommand}" IsVisible="{Binding IsReadyToOpen}"/>
-<Border BackgroundColor="{StaticResource CardColor}" Padding="10" HeightRequest="470" StrokeThickness="0" IsVisible="{Binding CarteActuelle}">
-<VerticalStackLayout Spacing="12">
-<Image Source="{Binding CarteActuelle.Vehicule.ImageUrl}" HeightRequest="280" Aspect="AspectFill"/>
-<Label Text="{Binding CarteActuelle.Vehicule.Marque}" TextColor="{StaticResource MutedColor}"/>
-<Label Text="{Binding CarteActuelle.Vehicule.Modele}" FontSize="28" FontAttributes="Bold"/>
-<Label Text="{Binding CarteActuelle.Vehicule.Rarete}" FontSize="18"/>
-<Label Text="{Binding CarteActuelle.Vehicule.Prix, StringFormat='{}{0:N0} €'}" FontSize="22" FontAttributes="Bold"/>
-</VerticalStackLayout></Border>
-<Button Text="SUIVANTE →" Command="{Binding SuivanteCommand}" IsVisible="{Binding HasCurrentCard}"/>
-</VerticalStackLayout></ContentPage>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="AutoMasters.Vues.BoosterPage">
+    <VerticalStackLayout Padding="20" Spacing="15" VerticalOptions="Center">
+
+        <Label Text="OUVERTURE DE BOOSTER" FontSize="25" FontAttributes="Bold" HorizontalOptions="Center"/>
+        <Label Text="{Binding Compteur}" FontSize="18" TextColor="{StaticResource MutedColor}" HorizontalOptions="Center"/>
+
+        <!-- Loader affiché uniquement quand State == Loading -->
+        <ActivityIndicator IsRunning="True" HorizontalOptions="Center" Margin="0, 50">
+            <ActivityIndicator.Triggers>
+                <DataTrigger TargetType="ActivityIndicator" Binding="{Binding IsLoading}" Value="False">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </ActivityIndicator.Triggers>
+        </ActivityIndicator>
+
+        <!-- Contenu masqué pendant le chargement -->
+        <VerticalStackLayout Spacing="15">
+            <VerticalStackLayout.Triggers>
+                <DataTrigger TargetType="VerticalStackLayout" Binding="{Binding IsLoading}" Value="True">
+                    <Setter Property="IsVisible" Value="False" />
+                </DataTrigger>
+            </VerticalStackLayout.Triggers>
+
+            <Button Text="OUVRIR UN BOOSTER" Command="{Binding OuvrirCommand}" IsVisible="{Binding IsReadyToOpen}" HeightRequest="55" CornerRadius="10" FontAttributes="Bold"/>
+
+            <!-- Le Border corrigé avec StrokeShape pour l'arrondi -->
+            <Border x:Name="CardBorder" BackgroundColor="{StaticResource CardColor}" Padding="15" HeightRequest="470" StrokeThickness="1" Stroke="#333" IsVisible="{Binding HasCurrentCard}">
+                <Border.StrokeShape>
+                    <RoundRectangle CornerRadius="15" />
+                </Border.StrokeShape>
+                <VerticalStackLayout Spacing="12">
+                    <Image Source="{Binding CarteActuelle.Vehicule.ImageUrl}" HeightRequest="280" Aspect="AspectFill" />
+                    <Label Text="{Binding CarteActuelle.Vehicule.Marque}" TextColor="{StaticResource MutedColor}" FontSize="16"/>
+                    <Label Text="{Binding CarteActuelle.Vehicule.Modele}" FontSize="28" FontAttributes="Bold"/>
+                    <Label Text="{Binding CarteActuelle.Vehicule.Rarete}" FontSize="16" TextColor="Gold" FontAttributes="Bold"/>
+                    <Label Text="{Binding CarteActuelle.Vehicule.Prix, StringFormat='{}{0:N0} €'}" FontSize="24" FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Border>
+
+            <Button Text="SUIVANTE →" Clicked="OnSuivanteClicked" IsVisible="{Binding HasCurrentCard}" HeightRequest="55" CornerRadius="10"/>
+
+        </VerticalStackLayout>
+    </VerticalStackLayout>
+</ContentPage>

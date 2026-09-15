@@ -7,4 +7,5 @@ public interface IBoosterService
     bool PeutOuvrir { get; }
     Task<IReadOnlyList<Carte>> OuvrirAsync();
     void StartTimer();
+    void Tick();
 }

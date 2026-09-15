@@ -17,7 +17,7 @@ public partial class CatalogueViewModel : BaseViewModel
     [ObservableProperty]
     private Rarete? rareteSelectionnee;
 
-    // On expose la liste des raretés pour le Picker (menu déroulant) XAML
+    // On expose la liste des raretés pour le menu déroulant XAML
     public List<Rarete?> FiltresRarete { get; } =
     [
         null, // Correspond à "Toutes"
@@ -32,13 +32,14 @@ public partial class CatalogueViewModel : BaseViewModel
     public CatalogueViewModel(IApiService api)
     {
         _api = api;
+        // On lance le chargement au démarrage
         _ = ChargerAsync();
     }
 
     [RelayCommand]
     public async Task ChargerAsync()
     {
-        if (State == AutoMasters.Modeles.ViewState.Loading) return;
+        // J'ai supprimé la condition qui bloquait le chargement initial.
 
         try
         {
@@ -60,21 +61,5 @@ public partial class CatalogueViewModel : BaseViewModel
         {
             State = AutoMasters.Modeles.ViewState.Offline;
         }
-
     }
-    [RelayCommand]
-    public async Task VoirDetailAsync(Vehicule vehiculeSelect)
-    {
-        if (vehiculeSelect == null) return;
-
-        // On prépare le paramètre à envoyer à l'autre page
-        var navigationParameter = new Dictionary<string, object>
-        {
-            { "VehiculeDetail", vehiculeSelect }
-        };
-
-        // Navigation vers la VehiculePage
-        await Shell.Current.GoToAsync(nameof(Vues.VehiculePage), navigationParameter);
-    }
-
 }

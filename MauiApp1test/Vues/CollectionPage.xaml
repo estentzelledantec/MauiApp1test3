@@ -1,0 +1,10 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AutoMasters.Vues.CollectionPage">
+<VerticalStackLayout Padding="15" Spacing="12">
+<Label Text="MA COLLECTION" FontSize="28" FontAttributes="Bold"/>
+<Label Text="{Binding ValeurTotale, StringFormat='Valeur : {0:N0} €'}" FontSize="20"/>
+<CollectionView ItemsSource="{Binding Cartes}"><CollectionView.ItemTemplate><DataTemplate>
+<Border Padding="10" Margin="0,5" BackgroundColor="{StaticResource CardColor}" StrokeThickness="0"><Grid ColumnDefinitions="110,*">
+<Image Source="{Binding Vehicule.ImageUrl}" HeightRequest="100" WidthRequest="100"/>
+<VerticalStackLayout Grid.Column="1"><Label Text="{Binding Vehicule.Marque}"/><Label Text="{Binding Vehicule.Modele}" FontSize="20" FontAttributes="Bold"/><Label Text="{Binding Vehicule.Prix, StringFormat='{}{0:N0} €'}"/></VerticalStackLayout>
+</Grid></Border></DataTemplate></CollectionView.ItemTemplate></CollectionView>
+</VerticalStackLayout></ContentPage>

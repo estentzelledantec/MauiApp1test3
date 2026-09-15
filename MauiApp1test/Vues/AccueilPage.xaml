@@ -1,0 +1,9 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AutoMasters.Vues.AccueilPage">
+<ScrollView><VerticalStackLayout Padding="20" Spacing="18">
+<Label Text="AUTOMASTERS" FontSize="32" FontAttributes="Bold"/>
+<Label Text="Collectionne les voitures les plus rares" TextColor="{StaticResource MutedColor}" FontSize="16"/>
+<Border StrokeThickness="0" BackgroundColor="{StaticResource CardColor}" Padding="20"><VerticalStackLayout Spacing="8">
+<Label Text="BOOSTERS GRATUITS" FontAttributes="Bold"/><Label Text="{Binding Stock}" FontSize="38" FontAttributes="Bold"/><Label Text="Prochain booster :"/><Label Text="{Binding Prochain}" FontSize="22"/>
+</VerticalStackLayout></Border>
+<Label Text="Une encyclopédie automobile + collection + marché en direct." FontSize="18"/>
+</VerticalStackLayout></ScrollView></ContentPage>

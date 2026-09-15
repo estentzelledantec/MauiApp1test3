@@ -1,0 +1,11 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AutoMasters.Vues.VehiculePage">
+<ScrollView><VerticalStackLayout Padding="15" Spacing="10">
+<Image Source="{Binding Vehicule.ImageUrl}" HeightRequest="260" Aspect="AspectFill"/>
+<Label Text="{Binding Vehicule.Marque}" TextColor="{StaticResource MutedColor}"/>
+<Label Text="{Binding Vehicule.Modele}" FontSize="32" FontAttributes="Bold"/>
+<Label Text="{Binding Vehicule.Motorisation}" FontSize="18"/>
+<Label Text="{Binding Vehicule.PuissanceCh, StringFormat='Puissance : {0} ch'}"/>
+<Label Text="{Binding Vehicule.Production, StringFormat='Production : {0:N0} exemplaires'}"/>
+<Label Text="{Binding Vehicule.Prix, StringFormat='Cote : {0:N0} €'}" FontSize="22" FontAttributes="Bold"/>
+<Label Text="{Binding Vehicule.Description}"/>
+</VerticalStackLayout></ScrollView></ContentPage>

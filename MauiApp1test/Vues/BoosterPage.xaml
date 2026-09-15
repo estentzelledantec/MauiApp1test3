@@ -1,0 +1,15 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="AutoMasters.Vues.BoosterPage">
+<VerticalStackLayout Padding="20" Spacing="15">
+<Label Text="OUVERTURE DE BOOSTER" FontSize="25" FontAttributes="Bold"/>
+<Label Text="{Binding Compteur}" FontSize="18" HorizontalOptions="Center"/>
+<Button Text="OUVRIR UN BOOSTER" Command="{Binding OuvrirCommand}" IsVisible="{Binding IsReadyToOpen}"/>
+<Border BackgroundColor="{StaticResource CardColor}" Padding="10" HeightRequest="470" StrokeThickness="0" IsVisible="{Binding CarteActuelle}">
+<VerticalStackLayout Spacing="12">
+<Image Source="{Binding CarteActuelle.Vehicule.ImageUrl}" HeightRequest="280" Aspect="AspectFill"/>
+<Label Text="{Binding CarteActuelle.Vehicule.Marque}" TextColor="{StaticResource MutedColor}"/>
+<Label Text="{Binding CarteActuelle.Vehicule.Modele}" FontSize="28" FontAttributes="Bold"/>
+<Label Text="{Binding CarteActuelle.Vehicule.Rarete}" FontSize="18"/>
+<Label Text="{Binding CarteActuelle.Vehicule.Prix, StringFormat='{}{0:N0} €'}" FontSize="22" FontAttributes="Bold"/>
+</VerticalStackLayout></Border>
+<Button Text="SUIVANTE →" Command="{Binding SuivanteCommand}" IsVisible="{Binding HasCurrentCard}"/>
+</VerticalStackLayout></ContentPage>

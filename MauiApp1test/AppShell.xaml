@@ -3,11 +3,20 @@
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
        xmlns:views="clr-namespace:AutoMasters.Vues"
        x:Class="AutoMasters.AppShell">
-    <TabBar>
-        <ShellContent Title="Accueil" ContentTemplate="{DataTemplate views:AccueilPage}" />
-        <ShellContent Title="Catalogue" ContentTemplate="{DataTemplate views:CataloguePage}" />
-        <ShellContent Title="Booster" ContentTemplate="{DataTemplate views:BoosterPage}" />
-        <ShellContent Title="Collection" ContentTemplate="{DataTemplate views:CollectionPage}" />
-        <ShellContent Title="Marché" ContentTemplate="{DataTemplate views:MarchePage}" />
+
+    <!-- 1. Écran de connexion affiché en premier, barres masquées -->
+    <ShellContent Route="ConnexionPage" 
+                  ContentTemplate="{DataTemplate views:ConnexionPage}" 
+                  Shell.NavBarIsVisible="False" 
+                  Shell.TabBarIsVisible="False" />
+
+    <!-- 2. L'application principale protégée par la route //MainApp -->
+    <TabBar Route="MainApp">
+        <ShellContent Route="AccueilPage" Title="Accueil" ContentTemplate="{DataTemplate views:AccueilPage}" />
+        <ShellContent Route="CataloguePage" Title="Catalogue" ContentTemplate="{DataTemplate views:CataloguePage}" />
+        <ShellContent Route="BoosterPage" Title="Booster" ContentTemplate="{DataTemplate views:BoosterPage}" />
+        <ShellContent Route="CollectionPage" Title="Collection" ContentTemplate="{DataTemplate views:CollectionPage}" />
+        <ShellContent Route="MarchePage" Title="Marché" ContentTemplate="{DataTemplate views:MarchePage}" />
     </TabBar>
+
 </Shell>

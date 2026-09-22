@@ -17,12 +17,17 @@ public partial class BoosterViewModel : BaseViewModel
     [ObservableProperty] private int index = -1;
     [ObservableProperty] private string compteur = "";
     [ObservableProperty] private bool fini;
-
     [ObservableProperty] private bool autoOuverture;
 
     public Carte? CarteActuelle => Index >= 0 && Index < Cartes.Count ? Cartes[Index] : null;
     public bool HasCurrentCard => CarteActuelle is not null;
     public bool IsReadyToOpen => Cartes.Count == 0 || Fini;
+
+    // Nouvelles variables pour gérer l'affichage des flèches et du bouton Terminer
+    public string TexteProgression => $"Carte {Index + 1} sur {Cartes.Count}";
+    public bool PeutAllerPrecedent => Index > 0;
+    public bool NstPasDerniereCarte => Index >= 0 && Index < Cartes.Count - 1;
+    public bool EstDerniereCarte => Index == Cartes.Count - 1;
 
     public BoosterViewModel(IBoosterService service)
     {
@@ -42,7 +47,6 @@ public partial class BoosterViewModel : BaseViewModel
         if (value)
         {
             AutoOuverture = false;
-
             if (IsReadyToOpen && _service.PeutOuvrir)
             {
                 _ = OuvrirAsync();
@@ -58,20 +62,17 @@ public partial class BoosterViewModel : BaseViewModel
         try
         {
             State = AutoMasters.Modeles.ViewState.Loading;
-
-            // 1. Sécurité : on vide visuellement l'ancienne carte de l'écran avant de charger
             Index = -1;
             RafraichirProprietes();
             Cartes.Clear();
 
-            await Task.Delay(1500); // Faux temps de chargement
+            await Task.Delay(1500);
             var nouvellesCartes = await _service.OuvrirAsync();
 
-            // 2. Astuce Gacha : On mélange l'ordre des cartes pour que chaque tirage paraisse unique
             var cartesMelangees = nouvellesCartes.OrderBy(x => Guid.NewGuid()).ToList();
-
             foreach (var c in cartesMelangees) Cartes.Add(c);
 
+            // Dès l'ouverture, la première carte est directement affichée
             Index = 0;
             Fini = false;
 
@@ -85,31 +86,44 @@ public partial class BoosterViewModel : BaseViewModel
         }
     }
 
-    public async void PasserCarteSuivante()
+    // Ces méthodes sont maintenant appelées par le Code-Behind après l'animation
+    public void PasserCarteSuivante()
     {
         if (Index < Cartes.Count - 1)
         {
             Index++;
             RafraichirProprietes();
         }
-        else
-        {
-            // Fin du paquet
-            Fini = true;
-            Index = -1;
-            Cartes.Clear(); // On nettoie tout derrière nous pour la prochaine fois
-            RafraichirProprietes();
+    }
 
-            // 3. Boucle parfaite : on ramène l'utilisateur sur ton beau menu d'accueil !
-            await Shell.Current.GoToAsync("//AccueilPage");
+    public void PasserCartePrecedente()
+    {
+        if (Index > 0)
+        {
+            Index--;
+            RafraichirProprietes();
         }
     }
 
-    private void RafraichirProprietes()
+    public async Task TerminerOuvertureAsync()
+    {
+        Fini = true;
+        Index = -1;
+        Cartes.Clear();
+        RafraichirProprietes();
+
+        await Shell.Current.GoToAsync("//AccueilPage");
+    }
+
+    public void RafraichirProprietes()
     {
         OnPropertyChanged(nameof(CarteActuelle));
         OnPropertyChanged(nameof(HasCurrentCard));
         OnPropertyChanged(nameof(IsReadyToOpen));
+        OnPropertyChanged(nameof(TexteProgression));
+        OnPropertyChanged(nameof(PeutAllerPrecedent));
+        OnPropertyChanged(nameof(NstPasDerniereCarte));
+        OnPropertyChanged(nameof(EstDerniereCarte));
     }
 
     public void Actualiser()

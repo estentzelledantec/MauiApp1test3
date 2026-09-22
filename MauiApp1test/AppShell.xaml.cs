@@ -6,7 +6,8 @@ public partial class AppShell : Shell
     {
         InitializeComponent();
 
-        // On enregistre la route de la fiche détaillée pour pouvoir y passer des paramètres
-        Routing.RegisterRoute(nameof(Vues.VehiculePage), typeof(Vues.VehiculePage));
+        // On déclare la route de la page Booster pour pouvoir y naviguer, 
+        // même si elle n'est pas dans les onglets du bas.
+        Routing.RegisterRoute("BoosterPage", typeof(Vues.BoosterPage));
     }
 }

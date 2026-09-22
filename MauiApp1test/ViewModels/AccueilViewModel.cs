@@ -72,13 +72,12 @@ public partial class AccueilViewModel : BaseViewModel
     {
         if (!PeutOuvrir) return;
 
-        // On prépare un paramètre pour dire à l'autre page de s'ouvrir toute seule
         var parametresNavigation = new Dictionary<string, object>
         {
             { "AutoOuverture", true }
         };
 
-        // On navigue vers la page Booster en lui passant le paramètre
-        await Shell.Current.GoToAsync("//BoosterPage", parametresNavigation);
+        // CORRECTION ICI : on enlève les "//" car ce n'est plus un onglet
+        await Shell.Current.GoToAsync("BoosterPage", parametresNavigation);
     }
 }
